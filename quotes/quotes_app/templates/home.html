@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" lang="eng">
+	<title>Quotable Quotes</title>
+</head>
+<body>
+	<h2>Welcome, {{loggedinUser.user_name}}</h2>
+	<a href="/logout">Logout</a>
+	<br>
+	<h3>Quoteable Quotes</h3>
+
+
+	<div class="your_quotes">
+	{% for quotes in all_quotes %}
+	{% if quotes.user.id == loggedinUser.id %}
+	<a href="/boop/{{quotes.id}}">Delete</a>
+	<a href="/edit/{{quotes.id}}">Edit</a>
+	{% endif %}
+	{% if quotes.user.id != loggedinUser.id %}
+	<a href="/addfavorite/{{quotes.id}}">Add to Favorites</a>
+	{% endif %}
+		<p>{{quotes.content}}</p>
+		<p>Posted by: <a href="/stats/{{quotes.user.id}}">
+		{{quotes.user.user_name}}</a></p>
+	{% endfor %}	
+	</div>
+
+	<div class="your_favorites">
+		<h3>Your Favorites</h3>
+		{% for quotes in favorite_quotes %}
+		<p>{{quotes.author}}: {{quotes.content}}</p>
+		<p>Posted by<a href="">{{quotes.user.user_name}}</a></p>
+		<a href="">Remove from Favorites</a>
+		{% endfor %}
+	</div>
+
+	<h2>Contribute a Quote</h2>
+	<form action="/makequote" method="post">
+		{% csrf_token %}
+		Quoted By:<input type="text" name="author">
+		<br>
+		Message:<textarea name="content" cols="30" rows="5"></textarea>
+		<input type="submit" name="" value="Submit">
+	</form>
+
+	{% if messages %}
+<ul class="messages">    
+    {% for message in messages %}    
+	<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+    {% endfor %}
+</ul>
+{% endif %}
+
+</body>
+</html>	

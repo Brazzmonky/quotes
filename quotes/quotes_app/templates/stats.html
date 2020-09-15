@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" lang="eng">
+	<title>Quotable Quotes</title>
+</head>
+<body>
+	<a href="/home">Dashboard</a>
+	<a href="/logout">Logout</a>
+	<h2>Posts by: {{user_to_display.user_name}}</h2>
+	<h2>count: {{user_to_display.quote.count}}</h2>
+
+{% for quotes in user_quotes %}
+<p>{{quotes.author}}: {{quotes.content}}</p>
+{% endfor %}
+</body>
+</html>	
